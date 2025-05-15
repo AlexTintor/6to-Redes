@@ -1,0 +1,27 @@
+#include <Wire.h>
+
+void setup() {
+  Wire.begin();
+  Serial.begin(9600);
+  Serial.println("Escaneando dispositivos I2C...");
+
+  byte count = 0;
+
+  for (byte address = 1; address < 127; ++address) {
+    Wire.beginTransmission(address);
+    if (Wire.endTransmission() == 0) {
+      Serial.print("Encontrado dispositivo en 0x");
+      if (address < 16) Serial.print("0");
+      Serial.print(address, HEX);
+      Serial.println();
+      count++;
+    }
+  }
+
+  if (count == 0)
+    Serial.println("No se encontraron dispositivos I2C.");
+  else
+    Serial.println("¡Escaneo completo!");
+}
+
+void loop() {}
